@@ -1,4 +1,4 @@
-Flask==3.0.0
+Flask== 2.2.5
 beautifulsoup4==4.12.0
 template-render==0.1.0
 make-response==1
