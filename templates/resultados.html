@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Texto a JSON</title>
+</head>
+<body>
+    <textarea id="texto" rows="10" cols="50"></textarea>
+    <br>
+    <button onclick="descargarTexto()">Descargar Texto</button>
+    <button onclick="descargarJSON()">Descargar JSON</button>
+
+    <script>
+        function descargarTexto() {
+            var texto = document.getElementById("texto").value;
+            var data = "data:text/plain;charset=utf-8," + encodeURIComponent(texto);
+            var link = document.createElement("a");
+            link.setAttribute("href", data);
+            link.setAttribute("download", "texto.txt");
+            link.click();
+        }
+
+        function descargarJSON() {
+            var texto = document.getElementById("texto").value;
+            var lineas = texto.split("\n");
+            var objetos = [];
+
+            lineas.forEach(function(linea) {
+                var datos = linea.split(",");
+                var objeto = {};
+
+                if (datos.length === 3) {
+                    objeto.nombre = datos[0].trim();
+                    objeto.apellido = datos[1].trim();
+                    objeto.edad = parseInt(datos[2].trim());
+                    objetos.push(objeto);
+                }
+            });
+
+            var json = JSON.stringify(objetos, null, 4);
+            var data = "data:application/json;charset=utf-8," + encodeURIComponent(json);
+
+            var link = document.createElement("a");
+            link.setAttribute("href", data);
+            link.setAttribute("download", "datos.json");
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Scraping App</title>
+    <style>
+
+        .main{
+            background-color: #d7d7d7;
+    width: 21%;
+    margin-left: 40%;
+    border-radius: 20px;
+    text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+    <h1>Web Scraping App</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    {% if texts %}
+        <h2>Texts:</h2>
+        <textarea id="texto" rows="10" cols="50">
+            {% for text in texts %}
+                {{ text }}
+            {% endfor %}
+        </textarea><br><br>
+        <!-- <form action="/export" method="post">
+            <input type="hidden" name="format" value="json">
+            {% for text in texts %}
+                <input type="hidden" name="texts[]" value="{{ text }}">
+            {% endfor %}
+            <input type="submit" value="Export as JSON">
+        </form>
+        <form action="/export" method="post">
+            <input type="hidden" name="format" value="txt">
+            {% for text in texts %}
+                <input type="hidden" name="texts[]" value="{{ text }}">
+            {% endfor %}
+            <input type="submit" value="Export as TXT">
+        </form>
+        <form action="/export" method="post">
+            <input type="hidden" name="format" value="csv">
+            {% for text in texts %}
+                <input type="hidden" name="texts[]" value="{{ text }}">
+            {% endfor %}
+            <input type="submit" value="Export as CSV">
+        </form> -->
+    {% endif %}
+
+    <button onclick="descargarTexto()">Descargar Texto</button>
+    <button onclick="descargarJSON()">Descargar JSON</button>
+    </div>
+    <script>
+        function descargarTexto() {
+            var texto = document.getElementById("texto").value;
+            var data = "data:text/plain;charset=utf-8," + encodeURIComponent(texto);
+            var link = document.createElement("a");
+            link.setAttribute("href", data);
+            link.setAttribute("download", "texto.txt");
+            link.click();
+        }
+
+        function descargarJSON() {
+            var texto = document.getElementById("texto").value;
+            var objetos = [];
+            var lineas = texto.split("\n");
+            lineas.forEach(function(linea) {
+                var datos = linea.split(",");
+                var objeto = {};
+                objeto.nombre = datos[0].trim();
+                objeto.apellido = datos[1].trim();
+                objeto.edad = parseInt(datos[2].trim());
+                objetos.push(objeto);
+            });
+            var data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(objetos));
+            var link = document.createElement("a");
+            link.setAttribute("href", data);
+            link.setAttribute("download", "datos.json");
+            link.click();
+        }
+    </script>
+</body>
+</html>
