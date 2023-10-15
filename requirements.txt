@@ -1,5 +1,4 @@
-gunicorn==19.7.1
-pip3 install psycopg2 gunicorn && pip3 freeze
+gunicorn==21.2.0
 Flask== 2.2.5
 beautifulsoup4==4.12.0
 template-render==0.1.0
